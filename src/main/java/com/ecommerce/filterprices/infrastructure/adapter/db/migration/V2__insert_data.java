@@ -9,14 +9,20 @@ import org.flywaydb.core.api.migration.Context;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 
 public class V2__insert_data extends BaseJavaMigration {
-    static final String COMMA = ",";
-    static final String OPEN_BRACKET = "(";
-    static final String CLOSE_BRACKET = ")";
+    private static final String COMMA = ",";
+    private static final String OPEN_BRACKET = "(";
+    private static final String CLOSE_BRACKET = ")";
 
-
+    // regex pattern of the example given date 2020-01-01-00.00.00
+    private static final Pattern DATE_PATTERN = Pattern.compile("([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2}).([0-9]{2}).([0-9]{2})");
+    private static final String EXAMPLE_DATE_PATTERN = "yyyy-MM-dd-HH.mm.ss";
     @Override
     public void migrate(Context context) throws Exception {
         migrateFromCsv(context, "price.csv", "price", new String[]{"brand_id", "start_date", "end_date", "price_list", "product_id", "priority", "price","currency"});
@@ -66,8 +72,17 @@ public class V2__insert_data extends BaseJavaMigration {
         StringBuilder sb = new StringBuilder();
         sb.append(OPEN_BRACKET);
         for (int i = 0; i < length; i++) {
+            String currentField = record.get(i);
+            currentField = Optional.ofNullable(currentField)
+                    .filter(current -> DATE_PATTERN.matcher(current).matches())
+                    .map(field -> {
+                        LocalDateTime localDateTime = LocalDateTime.parse(field, DateTimeFormatter
+                                .ofPattern(EXAMPLE_DATE_PATTERN));
+                        return localDateTime.toString();})
+                    .orElse(currentField);
+
             sb.append(SINGLE_QUOTE)
-                    .append(record.get(i))
+                    .append(currentField)
                     .append(SINGLE_QUOTE)
                     .append(COMMA);
         }
@@ -78,4 +93,5 @@ public class V2__insert_data extends BaseJavaMigration {
         sb.append(CLOSE_BRACKET);
         return sb.toString();
     }
+
 }
