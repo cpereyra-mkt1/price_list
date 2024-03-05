@@ -21,7 +21,7 @@ public class V2__insert_data extends BaseJavaMigration {
     private static final String CLOSE_BRACKET = ")";
 
     // regex pattern of the example given date 2020-01-01-00.00.00
-    private static final Pattern DATE_PATTERN = Pattern.compile("([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2}).([0-9]{2}).([0-9]{2})");
+    private static final Pattern EXAMPLE_REGEX_PATTERN = Pattern.compile("([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2}).([0-9]{2}).([0-9]{2})");
     private static final String EXAMPLE_DATE_PATTERN = "yyyy-MM-dd-HH.mm.ss";
     @Override
     public void migrate(Context context) throws Exception {
@@ -74,11 +74,12 @@ public class V2__insert_data extends BaseJavaMigration {
         for (int i = 0; i < length; i++) {
             String currentField = record.get(i);
             currentField = Optional.ofNullable(currentField)
-                    .filter(current -> DATE_PATTERN.matcher(current).matches())
+                    .filter(current -> EXAMPLE_REGEX_PATTERN.matcher(current).matches())
                     .map(field -> {
                         LocalDateTime localDateTime = LocalDateTime.parse(field, DateTimeFormatter
                                 .ofPattern(EXAMPLE_DATE_PATTERN));
-                        return localDateTime.toString();})
+                        return localDateTime.toString();
+                    })
                     .orElse(currentField);
 
             sb.append(SINGLE_QUOTE)
@@ -93,5 +94,4 @@ public class V2__insert_data extends BaseJavaMigration {
         sb.append(CLOSE_BRACKET);
         return sb.toString();
     }
-
 }
