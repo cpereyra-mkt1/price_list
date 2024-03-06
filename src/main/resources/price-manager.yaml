@@ -1,0 +1,89 @@
+openapi: 3.0.0
+x-stoplight:
+  id: 8qixerefjz1sf
+info:
+  title: price-manager
+  version: '1.0'
+  description: API to get prices filtered by query params
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /prices:
+    get:
+      summary: Get prices Info by filters
+      tags:
+        - price
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Price'
+        '404':
+          description: Prices Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-prices
+      description: Retrieve the information of the filtered prices
+      parameters:
+        - $ref: '#/components/parameters/application_date'
+        - schema:
+            type: string
+          in: query
+          name: chain_id
+          description: chain id
+        - schema:
+            type: string
+          in: query
+          name: product_id
+          description: product id
+components:
+  schemas:
+    Price:
+      title: Price
+      x-stoplight:
+        id: 6rrwnx42vv1ji
+      type: object
+      properties:
+        product_id:
+          type: integer
+          x-stoplight:
+            id: ax9qkxwj7lhxq
+        brand_id:
+          type: integer
+          x-stoplight:
+            id: e9fnjrn8u8xj9
+        price:
+          type: number
+          x-stoplight:
+            id: 96iek4il9cvx5
+        currency:
+          type: string
+          x-stoplight:
+            id: 61znkupbgbbnk
+        start_date:
+          type: string
+          x-stoplight:
+            id: otoonwdii9w92
+          format: date-time
+        end_date:
+          type: string
+          x-stoplight:
+            id: n91etzgvf46mq
+          format: date-time
+        price_list:
+          type: integer
+          x-stoplight:
+            id: 9yxufxygvsspu
+  parameters:
+    application_date:
+      name: application_date
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date-time
+      description: application date

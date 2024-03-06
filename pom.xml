@@ -15,6 +15,10 @@
 	<description>Find products to be shown on UI</description>
 	<properties>
 		<java.version>17</java.version>
+		<config.price.inputspec>${basedir}/src/main/resources/price-manager.yaml</config.price.inputspec>
+		<config.price.modelpackage>com.ecommerce.filterprices.api.infrastructure.api.domain</config.price.modelpackage>
+		<server.suffix>server</server.suffix>
+		<base-package>com.ecommerce.filterprices.api.infrastructure.api</base-package>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -30,9 +34,14 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.6</version>
+			<version>1.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
@@ -87,15 +96,54 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.2.1</version>
+				<executions>
+					<execution>
+						<id>generate-domain</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${config.price.inputspec}</inputSpec>
+							<output>${project.build.directory}/generated-sources/java</output>
+							<generatorName>spring</generatorName>
+							<modelPackage>${base-package}.domain</modelPackage>
+							<apiPackage>${base-package}.definition</apiPackage>
+							<invokerPackage>${base-package}.utils</invokerPackage>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<artifactVersion>${project.version}</artifactVersion>
+							<library>spring-boot</library>
+							<configOptions>
+								<basePackage>${base-package}</basePackage>
+								<configPackage>
+									${base-package}.${server.suffix}.config
+								</configPackage>
+								<interfaceOnly>true</interfaceOnly>
+								<unhandledException>true</unhandledException>
+								<useOptional>true</useOptional>
+								<useTags>true</useTags>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<booleanGetterPrefix>is</booleanGetterPrefix>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
