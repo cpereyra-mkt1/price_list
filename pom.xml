@@ -107,43 +107,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.2.1</version>
-				<executions>
-					<execution>
-						<id>generate-domain</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${config.price.inputspec}</inputSpec>
-							<output>${project.build.directory}/generated-sources/java</output>
-							<generatorName>spring</generatorName>
-							<modelPackage>${base-package}.domain</modelPackage>
-							<apiPackage>${base-package}.definition</apiPackage>
-							<invokerPackage>${base-package}.utils</invokerPackage>
-							<groupId>${project.groupId}</groupId>
-							<artifactId>${project.artifactId}</artifactId>
-							<artifactVersion>${project.version}</artifactVersion>
-							<library>spring-boot</library>
-							<configOptions>
-								<basePackage>${base-package}</basePackage>
-								<configPackage>
-									${base-package}.${server.suffix}.config
-								</configPackage>
-								<interfaceOnly>true</interfaceOnly>
-								<unhandledException>true</unhandledException>
-								<useOptional>true</useOptional>
-								<useTags>true</useTags>
-								<hideGenerationTimestamp>true</hideGenerationTimestamp>
-								<booleanGetterPrefix>is</booleanGetterPrefix>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 </project>
