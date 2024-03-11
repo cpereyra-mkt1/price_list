@@ -18,7 +18,7 @@ public class Price {
     private Long priceList;
     private Long productId;
     private Long priority;
-    private Long price;
+    private Double price;
     private String currency;
 }
 
