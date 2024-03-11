@@ -5,7 +5,7 @@
  */
 package com.ecommerce.filterprices.infrastructure.adapter.api;
 
-import com.ecommerce.filterprices.api.infrastructure.api.domain.Price;
+import com.ecommerce.filterprices.domain.model.Price;
 import com.ecommerce.filterprices.infrastructure.adapter.api.domain.PriceApiModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,12 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "Price", description = "the Price API")
+@RequestMapping("/price-manager-service/api/v1")
 public interface PriceApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -39,37 +39,37 @@ public interface PriceApi {
     }
 
     /**
-     * GET /prices : Get prices Info by filters
+     * GET /prices : Get price Info by filters
      * Retrieve the information of the filtered prices
      *
      * @param applicationDate application date (optional)
      * @param chainId chain id (optional)
      * @param productId product id (optional)
-     * @return Prices (status code 200)
-     *         or Prices Not Found (status code 404)
+     * @return Price (status code 200)
+     *         or Price Not Found (status code 404)
      *         or Internal Server Error (status code 500)
      */
     @Operation(
         operationId = "getPrices",
-        summary = "Get prices Info by filters",
+        summary = "Get price Info by filters",
         tags = { "price" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Prices", content = {
+            @ApiResponse(responseCode = "200", description = "Price", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Price.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Prices Not Found"),
+            @ApiResponse(responseCode = "404", description = "Price Not Found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/prices",
+        value = "/price",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<PriceApiModel>> getPrices(
+    default ResponseEntity<PriceApiModel> getPrice(
         @Parameter(name = "application_date", description = "application date") @Valid @RequestParam(value = "application_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<OffsetDateTime> applicationDate,
-        @Parameter(name = "chain_id", description = "chain id") @Valid @RequestParam(value = "chain_id", required = false) Optional<String> chainId,
-        @Parameter(name = "product_id", description = "product id") @Valid @RequestParam(value = "product_id", required = false) Optional<String> productId
+        @Parameter(name = "chain_id", description = "chain id") @Valid @RequestParam(value = "chain_id", required = false) Optional<Long> chainId,
+        @Parameter(name = "product_id", description = "product id") @Valid @RequestParam(value = "product_id", required = false) Optional<Long> productId
     ) throws Exception {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

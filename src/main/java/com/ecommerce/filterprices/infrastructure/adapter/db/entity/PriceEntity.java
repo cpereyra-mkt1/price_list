@@ -1,17 +1,25 @@
-package com.ecommerce.filterprices.domain.model;
+package com.ecommerce.filterprices.infrastructure.adapter.db.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Price {
+@Entity
+@ToString
+@Table(name="price")
+public class PriceEntity {
+
+    @Id
+    private Long id;
     private Long brandId;
     private OffsetDateTime startDate;
     private OffsetDateTime endDate;
@@ -21,4 +29,3 @@ public class Price {
     private Long price;
     private String currency;
 }
-

@@ -15,10 +15,6 @@
 	<description>Find products to be shown on UI</description>
 	<properties>
 		<java.version>17</java.version>
-		<config.price.inputspec>${basedir}/src/main/resources/price-manager.yaml</config.price.inputspec>
-		<config.price.modelpackage>com.ecommerce.filterprices.api.infrastructure.api.domain</config.price.modelpackage>
-		<server.suffix>server</server.suffix>
-		<base-package>com.ecommerce.filterprices.api.infrastructure.api</base-package>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -1,18 +1,20 @@
 package com.ecommerce.filterprices.configuration;
 
-import com.ecommerce.filterprices.domain.port.file.system.IPriceFileSystem;
-import com.ecommerce.filterprices.infrastructure.adapter.file.system.PriceFileSystem;
-import org.springframework.context.annotation.Bean;
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.TimeZone;
 
 @Configuration
 public class ApplicationConfiguration {
 
 
+    @PostConstruct
+    public void init() {
 
-    @Bean
-    public IPriceFileSystem priceFileSystem() {
-        return new PriceFileSystem();
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
     }
+
 }
 
