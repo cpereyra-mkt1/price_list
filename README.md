@@ -2,6 +2,10 @@
 API was designed using StopLight to define the swagger api.</br>
 One endpoint was developed:</br>
 The endpoint will get the price filtered by brandId, productId and applicationDate. Returning only the price with max priority</br>
+The project will run database in memory migration every time the project starts
+![image](https://github.com/cpereyra-mkt1/price_list/assets/159815930/710ce2b4-4195-48f2-a435-ae432fb1d910)
+
+
 GET: /price-manager-service/api/v1/price</br>
 
 Result:</br>
